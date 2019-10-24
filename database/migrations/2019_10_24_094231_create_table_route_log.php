@@ -13,8 +13,13 @@ class CreateTableRouteLog extends Migration
      */
     public function up()
     {
-        Schema::create('table_route_log', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('route_log', function (Blueprint $table) {
+            $table->bigIncrements('id_route_log');
+            $table->unsignedBigInteger('id_user');
+            $table->foreign('id_user')->references('id_user')->on('user');
+            $table->unsignedBigInteger('id_route');
+            $table->foreign('id_route')->references('id_route')->on('route');
+            $table->string('description',200);
             $table->timestamps();
         });
     }
@@ -26,6 +31,7 @@ class CreateTableRouteLog extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_route_log');
+        Schema::dropIfExists('route_log');
     }
+    
 }

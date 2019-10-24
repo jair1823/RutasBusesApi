@@ -13,8 +13,13 @@ class CreateTableCompanyLog extends Migration
      */
     public function up()
     {
-        Schema::create('table_company_log', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('company_log', function (Blueprint $table) {
+            $table->bigIncrements('id_company_log');
+            $table->unsignedBigInteger('id_user');
+            $table->foreign('id_user')->references('id_user')->on('user');
+            $table->unsignedBigInteger('id_company');
+            $table->foreign('id_company')->references('id_company')->on('company');
+            $table->string('description',200);
             $table->timestamps();
         });
     }
@@ -26,6 +31,7 @@ class CreateTableCompanyLog extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_company_log');
+        Schema::dropIfExists('company_log');
     }
+
 }

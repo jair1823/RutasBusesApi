@@ -13,8 +13,18 @@ class CreateTableCompany extends Migration
      */
     public function up()
     {
-        Schema::create('table_company', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('company', function (Blueprint $table) {
+            $table->bigIncrements('id_company');
+            $table->string('name',30);
+            $table->string('service_zone',30);
+            $table->string('phone',15);
+            $table->string('email',30);
+            $table->string('address',200);
+            $table->float("lat",10,6);
+            $table->float("lng",10,6);
+            $table->string('start_time',20);
+            $table->string('end_time',20);
+            $table->boolean('status');        
             $table->timestamps();
         });
     }
@@ -26,6 +36,6 @@ class CreateTableCompany extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_company');
+        Schema::dropIfExists('company');
     }
 }
