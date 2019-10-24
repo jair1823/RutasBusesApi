@@ -4,3 +4,18 @@ php artisan make:migration create_table_route
 php artisan make:migration create_table_point
 php artisan make:migration create_table_company_log
 php artisan make:migration create_table_route_log
+
+
+php artisan make:model User
+php artisan make:model Company
+php artisan make:model Route
+php artisan make:model Point
+php artisan make:model Company_log
+php artisan make:model Route_log
+
+php artisan make:controller UserController -r
+php artisan make:controller CompanyController -r
+php artisan make:controller RouteController -r
+php artisan make:controller PointController -r
+php artisan make:controller CompanyLogController -r
+php artisan make:controller RouteLogController -r
