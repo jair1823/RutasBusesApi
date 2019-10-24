@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Company;
 
 class CompanyController extends Controller
 {
@@ -13,17 +14,16 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $all = Company::where('status',1)->get();
+        if($all->isEmpty()){
+            return response()->json([
+                'success'=>false
+            ]);
+        }
+        return response()->json([
+            'success'=>true,
+            'data'=>$all
+        ]);
     }
 
     /**
@@ -34,7 +34,27 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $company = new Company;
+
+        $company->name = $request->name;
+        $company->service_zone = $request->service_zone;
+        $company->phone = $request->phone;
+        $company->email = $request->email;
+        $company->address = $request->address;
+        $company->lat = $request->lat;
+        $company->lng = $request->lng;
+        $company->start_time = $request->start_time;
+        $company->end_time = $request->end_time;
+        $company->status = 1;
+
+        if($company->save()){
+            return response()->json([
+                'success'=>true
+            ]);
+        }
+        return response()->json([
+            'success'=>false
+        ]);
     }
 
     /**
@@ -45,18 +65,16 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $company = Company::where('id_company', $id)->get();
+        if($company->isEmpty()){
+            return response()->json([
+                'success'=>false
+            ]);
+        }
+        return response()->json([
+            'success'=>true,
+            'data'=>$company
+        ]);
     }
 
     /**
@@ -68,7 +86,15 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $update = Company::where('id_company',$id)->update($request->all());
+        if($update){
+            return response()->json([
+                'success'=>true
+            ]);
+        }
+        return response()->json([
+            'success'=>false
+        ]);
     }
 
     /**
@@ -79,6 +105,14 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $update = Company::where('id_company',$id)->update(['status'=>0]);
+        if($update){
+            return response()->json([
+                'success'=>true
+            ]);
+        }
+        return response()->json([
+            'success'=>false
+        ]);
     }
 }
