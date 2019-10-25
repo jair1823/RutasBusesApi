@@ -1,9 +1,13 @@
-php artisan make:migration create_table_user
-php artisan make:migration create_table_company
-php artisan make:migration create_table_route
-php artisan make:migration create_table_point
-php artisan make:migration create_table_company_log
-php artisan make:migration create_table_route_log
+php artisan make:migration create_table_user --create=user
+php artisan make:migration create_table_company --create=company
+php artisan make:migration create_table_province  --create=province
+php artisan make:migration create_table_canton  --create=canton
+php artisan make:migration create_table_distric  --create=distric
+php artisan make:migration create_table_route --create=route
+php artisan make:migration create_table_point --create=point
+php artisan make:migration create_table_new_place  --create=new_place
+php artisan make:migration create_table_company_log --create=company
+php artisan make:migration create_table_route_log --create=route_log
 
 
 php artisan make:model User
@@ -13,9 +17,20 @@ php artisan make:model Point
 php artisan make:model Company_log
 php artisan make:model Route_log
 
+php artisan make:model Province
+php artisan make:model Canton
+php artisan make:model Distric
+php artisan make:model New_place
+
+
 php artisan make:controller UserController -r
 php artisan make:controller CompanyController -r
 php artisan make:controller RouteController -r
 php artisan make:controller PointController -r
 php artisan make:controller CompanyLogController -r
 php artisan make:controller RouteLogController -r
+
+php artisan make:controller ProvinceController -r
+php artisan make:controller CantonController -r
+php artisan make:controller DistricController -r
+php artisan make:controller New_placeController -r

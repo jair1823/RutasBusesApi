@@ -24,12 +24,12 @@ class CreateTableRoute extends Migration
             $table->string('end_time',20);
             $table->integer('duration');
             $table->boolean('disability_system');
-            $table->float("start_lat",10,6);
-            $table->float("start_lng",10,6);
-            $table->float("end_lat",10,6);
-            $table->float("end_lng",10,6);
-            $table->string('origin',12);
-            $table->string('destination',12);
+
+            $table->bigInteger('origin');
+            $table->foreign('origin')->references('id_distric')->on('distric');
+            $table->bigInteger('destination');
+            $table->foreign('destination')->references('id_distric')->on('distric');
+
             $table->timestamps();
         });
     }

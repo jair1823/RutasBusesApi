@@ -17,6 +17,7 @@ class CreateTablePoint extends Migration
             $table->bigIncrements('id_point');
             $table->unsignedBigInteger('id_route');
             $table->foreign('id_route')->references('id_route')->on('route');
+            $table->string('description',150);
             $table->float("lat",10,6);
             $table->float("lng",10,6);
             $table->timestamps();
