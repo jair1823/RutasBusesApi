@@ -16,8 +16,8 @@ class CreateTableNewPlace extends Migration
         Schema::create('new_place', function (Blueprint $table) {
             $table->bigIncrements('id_new_place');
 
-            $table->unsignedBigInteger('id_point');
-            $table->foreign('id_point')->references('id_point')->on('point');
+            $table->unsignedBigInteger('id_user');
+            $table->foreign('id_user')->references('id_user')->on('user');
             $table->string('name',50);
             $table->string('description',250);
             $table->timestamps();
