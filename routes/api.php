@@ -24,11 +24,25 @@ Route::post('user/changePassword', 'UserController@changePassword')->name('user.
 
 Route::resource('company', 'CompanyController')->except('create','edit');
 
-Route::resource('route', 'RouteController');
-Route::resource('point', 'PointController');
+Route::resource('route', 'RouteController')->except('create','edit');
+
+Route::resource('point', 'PointController')->except('index','create','show','edit','update');
 //Route::resource('company_log', 'CompanyLogController');
 Route::get('company_log/new/{id_user}/{id_company}', 'CompanyLogController@newCompany')->name('company_log.new');
 Route::get('company_log/update/{id_user}/{id_company}', 'CompanyLogController@updateCompany')->name('company_log.update');
 Route::get('company_log/delete/{id_user}/{id_company}', 'CompanyLogController@deleteCompany')->name('company_log.delete');
 
-Route::resource('route_log', 'RouteLogController');
+//Route::resource('route_log', 'RouteLogController');
+Route::get('route_log/new/{id_user}/{id_route}', 'RouteLogController@newRoute')->name('route_log.new');
+Route::get('route_log/update/{id_user}/{id_route}', 'RouteLogController@updateRoute')->name('route_log.update');
+Route::get('route_log/delete/{id_user}/{id_route}', 'RouteLogController@deleteRoute')->name('route_log.delete');
+
+Route::resource('province', 'ProvinceController')->except('create','store','show','edit','update','destroy');
+
+Route::resource('canton', 'CantonController')->except('create','store','show','edit','update','destroy');
+Route::get('canton/by_province/{id_province}', 'CantonController@index_by_province')->name('by_province.new');
+
+Route::resource('distric', 'DistricController')->except('create','store','show','edit','update','destroy');
+Route::get('distric/by_canton/{id_canton}', 'DistricController@index_by_canton')->name('by_canton.new');
+
+Route::resource('new_place', 'New_placeController')->except('update','edit','create');
