@@ -18,7 +18,7 @@ class CreateTableNewPlace extends Migration
 
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id_user')->on('user');
-            $table->string('name',50);
+            //$table->string('name',50);
             $table->string('description',250);
             $table->timestamps();
         });

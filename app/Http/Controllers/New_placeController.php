@@ -19,7 +19,7 @@ class New_placeController extends Controller
         $all = New_place::select(DB::raw('CONCAT(user.name, " ", last_name," ",second_last_name) AS full_name'),
                             'id_new_place',
                             'user.id_user',
-                            'new_place.name',
+                            //'new_place.name',
                             'description'
                             )
                             ->join('user','new_place.id_user','=','user.id_user')
@@ -45,7 +45,7 @@ class New_placeController extends Controller
     {
         $place = new New_place;
         $place->id_user = $request->id_user;
-        $place->name = $request->name;
+        //$place->name = $request->name;
         $place->description = $request->description;
         if($place->save()){
             return response()->json([
@@ -68,7 +68,7 @@ class New_placeController extends Controller
         $place = New_place::select(DB::raw('CONCAT(user.name, " ", last_name," ",second_last_name) AS full_name'),
                                         'id_new_place',
                                         'user.id_user',
-                                        'new_place.name',
+                                        //'new_place.name',
                                         'description'
                                         )
                                         ->join('user','new_place.id_user','=','user.id_user')
