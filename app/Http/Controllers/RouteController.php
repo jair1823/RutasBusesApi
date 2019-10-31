@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Route;
 use App\Point;
+use App\Distric;
 class RouteController extends Controller
 {
     /**
@@ -14,7 +15,14 @@ class RouteController extends Controller
      */
     public function index()
     {
-        $all = Route::all();
+       // $all = Route::all();
+        $all = Route::
+            select('route.*','d.name as distric_name','ca.name as canton_name','p.name as province_name','c.name as company_name')
+            ->join('distric as d','route.destination','=','d.id_distric')
+            ->join('canton as ca','d.id_canton','=','ca.id_canton')
+            ->join('province as p','ca.id_province','=','p.id_province')
+            ->join('company as c','route.id_company','=','c.id_company')        
+            ->get();
         if($all->isEmpty()){
             return response()->json([
                 'success'=>false
@@ -66,8 +74,31 @@ class RouteController extends Controller
      */
     public function show($id)
     {
-        $route = Route::where('id_route', $id)->get();
+        //$route = Route::where('id_route', $id)->get();
+        $route = Route::
+            select('route.*','o.name as name_origin','d.name as name_destination', 'c.name as company_name')
+            ->join('distric as o','route.origin','=','o.id_distric')
+            ->join('distric as d','route.destination','=','d.id_distric')
+            ->join('company as c','route.id_company','=','c.id_company')
+            ->where('id_route', $id)            
+            ->get();
         $points = Point::where('id_route', $id)->get();
+        $origin = Route::
+            select('o.id_distric','c.id_canton','p.id_province','o.name','c.name as pro_name')
+            ->join('distric as o','route.origin','=','o.id_distric') 
+            ->join('canton as c','o.id_canton','=','c.id_canton')
+            ->join('province as p','c.id_province','=','p.id_province')
+            ->where('id_route', $id)            
+            ->get();
+
+        $destination = Route::
+            select('o.id_distric','c.id_canton','p.id_province','o.name','c.name as pro_name')
+            ->join('distric as o','route.destination','=','o.id_distric') 
+            ->join('canton as c','o.id_canton','=','c.id_canton')
+            ->join('province as p','c.id_province','=','p.id_province')
+            ->where('id_route', $id)            
+            ->get();
+
         if($route->isEmpty() || $points->isEmpty()){
             return response()->json([
                 'success'=>false
@@ -76,7 +107,9 @@ class RouteController extends Controller
         return response()->json([
             'success'=>true,
             'data'=>$route,
-            'points'=>$points
+            'points'=>$points,
+            'origin' =>$origin,
+            'destination'=>$destination
         ]);
     }
 
