@@ -49,7 +49,8 @@ class CompanyController extends Controller
 
         if($company->save()){
             return response()->json([
-                'success'=>true
+                'success'=>true,
+                'data'=>$company->id
             ]);
         }
         return response()->json([

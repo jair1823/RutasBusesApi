@@ -7,6 +7,26 @@ use App\Point;
 
 class PointController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $all = Point::all();
+        if($all->isEmpty()){
+            return response()->json([
+                'success'=>false
+            ]);
+        }
+        return response()->json([
+            'success'=>true,
+            'data'=>$all
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

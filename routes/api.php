@@ -26,8 +26,11 @@ Route::resource('company', 'CompanyController')->except('create','edit');
 
 Route::resource('route', 'RouteController')->except('create','edit');
 Route::get('route/by_company/{id_company}', 'RouteController@by_company')->name('route.by_company');
+Route::get('route/by_destination/{id_distric}', 'RouteController@by_destination')->name('route.by_destination');
 
-Route::resource('point', 'PointController')->except('index','create','edit','update');
+Route::post('route/many', 'RouteController@many_route')->name('route.many_route');
+
+Route::resource('point', 'PointController')->except('create','edit','update');
 //Route::resource('company_log', 'CompanyLogController');
 Route::get('company_log/new/{id_user}/{id_company}', 'CompanyLogController@newCompany')->name('company_log.new');
 Route::get('company_log/update/{id_user}/{id_company}', 'CompanyLogController@updateCompany')->name('company_log.update');
