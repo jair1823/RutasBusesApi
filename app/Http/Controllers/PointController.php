@@ -49,4 +49,18 @@ class PointController extends Controller
             'success'=>false
         ]);
     }
+    public function show($id)
+    {
+        $points = Point::where('id_route', $id)->get();
+
+        if($points->isEmpty()){
+            return response()->json([
+                'success'=>false
+            ]);
+        }
+        return response()->json([
+            'success'=>true,
+            'data'=>$points
+        ]);
+    }
 }

@@ -25,8 +25,9 @@ Route::post('user/changePassword', 'UserController@changePassword')->name('user.
 Route::resource('company', 'CompanyController')->except('create','edit');
 
 Route::resource('route', 'RouteController')->except('create','edit');
+Route::get('route/by_company/{id_company}', 'RouteController@by_company')->name('route.by_company');
 
-Route::resource('point', 'PointController')->except('index','create','show','edit','update');
+Route::resource('point', 'PointController')->except('index','create','edit','update');
 //Route::resource('company_log', 'CompanyLogController');
 Route::get('company_log/new/{id_user}/{id_company}', 'CompanyLogController@newCompany')->name('company_log.new');
 Route::get('company_log/update/{id_user}/{id_company}', 'CompanyLogController@updateCompany')->name('company_log.update');

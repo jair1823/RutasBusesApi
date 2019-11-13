@@ -151,4 +151,24 @@ class RouteController extends Controller
             'success'=>false
         ]);
     }
+
+    public function by_company($id)
+    {
+        $routes = Route::
+            select('route.*','o.name as name_origin','d.name as name_destination')
+            ->join('distric as o','route.origin','=','o.id_distric')
+            ->join('distric as d','route.destination','=','d.id_distric')
+            //->join('company as c','route.id_company','=','c.id_company')
+            ->where('id_company', $id)            
+            ->get();
+        if($routes->isEmpty()){
+            return response()->json([
+                'success'=>false
+            ]);
+        }
+        return response()->json([
+            'success'=>true,
+            'data'=>$routes
+        ]);
+    }
 }
