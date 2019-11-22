@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\New_place;
-
+use App;
 use Illuminate\Support\Facades\DB;
 
 class New_placeController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -27,14 +29,28 @@ class New_placeController extends Controller
                             ->join('user','new_place.id_user','=','user.id_user')
                             ->get();
         if($all->isEmpty()){
-            return response()->json([
-                'success'=>false
-            ]);
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->loadHTML('<h1>No hay puntos</h1>');
+            return $pdf->stream('nuevos_lugares.pdf');
+
         }
-        return response()->json([
+        
+        return $this->crearPDF($all,'pdf.reporte');
+        /*return response()->json([
             'success'=>true,
             'data'=>$all
-        ]);
+        ]);*/
+    }
+
+    public function crearPDF($datos,$vistairl)
+    {
+        
+        $data = $datos;
+        $date = date('Y-m-d');
+        $view = \View::make($vistairl, compact('data','date'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        return $pdf->stream('nuevos_lugares.pdf');
     }
 
     /**
@@ -107,4 +123,5 @@ class New_placeController extends Controller
             'success'=>false
         ]);
     }
+
 }
