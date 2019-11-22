@@ -51,4 +51,19 @@ class CompanyLogController extends Controller
             'success'=>false
         ]);
     }
+
+    public function restoreCompany($id1,$id2){
+        $log = new Company_log;
+        $log->id_user = $id1;
+        $log->id_company = $id2;
+        $log->description = 'Recupero una compañía';
+         if($log->save()){
+            return response()->json([
+                'success'=>true
+            ]);
+        }
+        return response()->json([
+            'success'=>false
+        ]);
+    }
 }

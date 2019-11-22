@@ -20,7 +20,9 @@ class New_placeController extends Controller
                             'id_new_place',
                             'user.id_user',
                             //'new_place.name',
-                            'description'
+                            'description',
+                            "lat",
+                            "lng"
                             )
                             ->join('user','new_place.id_user','=','user.id_user')
                             ->get();
@@ -47,6 +49,8 @@ class New_placeController extends Controller
         $place->id_user = $request->id_user;
         //$place->name = $request->name;
         $place->description = $request->description;
+        $place->lat = $request->lat;
+        $place->lng = $request->lng;
         if($place->save()){
             return response()->json([
                 'success'=>true

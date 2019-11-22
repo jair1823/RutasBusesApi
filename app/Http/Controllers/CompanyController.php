@@ -14,7 +14,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $all = Company::where('status',1)->get();
+        $all = Company::all();
         if($all->isEmpty()){
             return response()->json([
                 'success'=>false
@@ -107,6 +107,38 @@ class CompanyController extends Controller
     public function destroy($id)
     {
         $update = Company::where('id_company',$id)->update(['status'=>0]);
+        if($update){
+            return response()->json([
+                'success'=>true
+            ]);
+        }
+        return response()->json([
+            'success'=>false
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function get_active()
+    {
+        $all = Company::where('status',1)->get();
+        if($all->isEmpty()){
+            return response()->json([
+                'success'=>false
+            ]);
+        }
+        return response()->json([
+            'success'=>true,
+            'data'=>$all
+        ]);
+    }
+
+    public function restore($id)
+    {
+        $update = Company::where('id_company',$id)->update(['status'=>1]);
         if($update){
             return response()->json([
                 'success'=>true

@@ -20,6 +20,8 @@ class CreateTableNewPlace extends Migration
             $table->foreign('id_user')->references('id_user')->on('user');
             //$table->string('name',50);
             $table->string('description',250);
+            $table->float("lat",10,6);
+            $table->float("lng",10,6);
             $table->timestamps();
         });
     }

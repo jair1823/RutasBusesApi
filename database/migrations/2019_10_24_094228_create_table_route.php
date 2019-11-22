@@ -24,12 +24,11 @@ class CreateTableRoute extends Migration
             $table->string('end_time',20);
             $table->integer('duration');
             $table->boolean('disability_system');
-
             $table->bigInteger('origin');
             $table->foreign('origin')->references('id_distric')->on('distric');
             $table->bigInteger('destination');
             $table->foreign('destination')->references('id_distric')->on('distric');
-
+            $table->boolean('status');
             $table->timestamps();
         });
     }

@@ -8,6 +8,7 @@ use App\Point;
 use App\Distric;
 class RouteController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -54,7 +55,7 @@ class RouteController extends Controller
         $route->disability_system = $request->disability_system;
         $route->origin = $request->origin;
         $route->destination = $request->destination;
-
+        $route->status = 1;
         if($route->save()){
             return response()->json([
                 'success'=>true,
@@ -99,7 +100,7 @@ class RouteController extends Controller
             ->where('id_route', $id)            
             ->get();
 
-        if($route->isEmpty() || $points->isEmpty()){
+        if($route->isEmpty()){
             return response()->json([
                 'success'=>false
             ]);
@@ -141,7 +142,7 @@ class RouteController extends Controller
      */
     public function destroy($id)
     {
-        $delete = Route::where('id_route',$id)->delete();
+        $delete = Route::where('id_route',$id)->update(['status'=>0]);
         if($delete){
             return response()->json([
                 'success'=>true
@@ -159,6 +160,7 @@ class RouteController extends Controller
             ->join('distric as o','route.origin','=','o.id_distric')
             ->join('distric as d','route.destination','=','d.id_distric')
             //->join('company as c','route.id_company','=','c.id_company')
+            ->where('status',1)
             ->where('id_company', $id)            
             ->get();
         if($routes->isEmpty()){
@@ -179,6 +181,7 @@ class RouteController extends Controller
             ->join('distric as o','route.origin','=','o.id_distric')
             ->join('distric as d','route.destination','=','d.id_distric')
             //->join('company as c','route.id_company','=','c.id_company')
+            ->where('status',1)
             ->where('route.destination', $id)            
             ->get();
         if($routes->isEmpty()){
@@ -200,6 +203,7 @@ class RouteController extends Controller
             ->join('distric as o','route.origin','=','o.id_distric')
             ->join('distric as d','route.destination','=','d.id_distric')
             //->join('company as c','route.id_company','=','c.id_company')
+            ->where('status',1)
             ->whereIn('id_route', $request->ids)            
             ->get();
         if($routes->isEmpty()){
@@ -213,4 +217,38 @@ class RouteController extends Controller
         ]);
         
     }
+    
+    public function get_active(){
+        $all = Route::
+            select('route.*','d.name as distric_name','ca.name as canton_name','p.name as province_name','c.name as company_name')
+            ->join('distric as d','route.destination','=','d.id_distric')
+            ->join('canton as ca','d.id_canton','=','ca.id_canton')
+            ->join('province as p','ca.id_province','=','p.id_province')
+            ->join('company as c','route.id_company','=','c.id_company')     
+            ->where('route.status',1)
+            ->get();
+        if($all->isEmpty()){
+            return response()->json([
+                'success'=>false
+            ]);
+        }
+        return response()->json([
+            'success'=>true,
+            'data'=>$all
+        ]);
+    }
+
+    public function restore($id)
+    {
+        $delete = Route::where('id_route',$id)->update(['status'=>1]);
+        if($delete){
+            return response()->json([
+                'success'=>true
+            ]);
+        }
+        return response()->json([
+            'success'=>false
+        ]);
+    }
+
 }
