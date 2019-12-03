@@ -30,6 +30,9 @@ Route::get('company/restore/{id_company}', 'CompanyController@restore')->name('c
 Route::resource('route', 'RouteController')->except('create','edit');
 Route::get('route/by_company/{id_company}', 'RouteController@by_company')->name('route.by_company');
 Route::get('route/by_destination/{id_distric}', 'RouteController@by_destination')->name('route.by_destination');
+
+Route::get('route/by_origin/{id_distric}/{id_distric2}', 'RouteController@by_origin')->name('route.by_origin');
+
 Route::post('route/many', 'RouteController@many_route')->name('route.many_route');
 Route::get('route/index/activas', 'RouteController@get_active')->name('route.get_active');
 Route::get('route/restore/{id_route}', 'RouteController@restore')->name('route.restore');

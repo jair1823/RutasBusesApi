@@ -174,6 +174,28 @@ class RouteController extends Controller
         ]);
     }
 
+    
+    public function by_origin($id1,$id2)
+    {
+        $routes = Route::
+            select('route.*','o.name as name_origin','d.name as name_destination')
+            ->join('distric as o','route.origin','=','o.id_distric')
+            ->join('distric as d','route.destination','=','d.id_distric')
+            //->join('company as c','route.id_company','=','c.id_company')
+            ->where('status',1)
+            ->where('route.origin', $id1)
+            ->where('route.destination', $id2)
+            ->get();
+        if($routes->isEmpty()){
+            return response()->json([
+                'success'=>false
+            ]);
+        }
+        return response()->json([
+            'success'=>true,
+            'data'=>$routes
+        ]);
+    }
     public function by_destination($id)
     {
         $routes = Route::
